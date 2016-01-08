@@ -1,0 +1,36 @@
+Operations are:
+*** Operations of entity Staff:
+*** Operations of entity Assignment:
+query toString(): String
+pre: true
+post: result = task.taskId + ", " + task.duration + ", " + staff.staffId + ", " + staff.costDay
+
+
+displayschedule1()
+post: self->display()
+
+
+*** Operations of entity Task:
+*** Operations of entity Story:
+*** Operations of entity Skill:
+*** Operations of entity Schedule:
+allocatestaff1(t: Task,st: Staff)
+pre: t.assignment.size = 0 & st.assigned.size = 0
+post: Assignment->exists( a | a.task = t & a.staff = st )
+
+
+query allocatestaff1test(t: Task,st: Staff): boolean
+post: true
+activity: if t.assignment.size = 0 & st.assigned.size = 0 then return true else skip ; return false 
+
+
+static allocatestaff1search(): boolean
+post: true
+activity: (  for schedulex : Schedule do  for t : sortedtasks do  for st : sortedstaff do if schedulex.allocatestaff1test(t,st) then ( schedulex.allocatestaff1(t,st) ; return true  ) else skip    ) ; return false 
+
+
+*** Operations of entity AllocateStaff:
+*** Operations of entity DisplaySchedule:
+*** Operations of entity CalculateCost:
+*** Operations of entity NextIteration:
+*** Operations of entity Initialisation:
